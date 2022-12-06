@@ -1,8 +1,16 @@
+#[derive(Debug)]
 pub struct Sequence {
     sequence: String,
 }
 
+impl PartialEq for Sequence {
+    fn eq(&self, other: &Self) -> bool {
+        self.sequence == other.sequence
+    }
+}
+
 impl Sequence {
+    
     pub fn new(sequence: &str) -> Sequence {
         Sequence {
             sequence: String::from(sequence),
@@ -17,7 +25,7 @@ impl Sequence {
         self.sequence.is_empty()
     }
 
-    pub fn transcribe(&self) -> String {
+    pub fn transcribe(&self) -> Sequence {
         let mut rna = String::from("");
         for nucleotide in self.sequence.chars() {
             if nucleotide == 'T' {
@@ -26,10 +34,10 @@ impl Sequence {
                 rna.push(nucleotide);
             }
         }
-        rna
+        Sequence::new(&rna)
     }
 
-    pub fn back_transcribe(&self) -> String {
+    pub fn back_transcribe(&self) -> Sequence {
         let mut dna = String::from("");
         for nucleotide in self.sequence.chars() {
             if nucleotide == 'U' {
@@ -38,37 +46,69 @@ impl Sequence {
                 dna.push(nucleotide);
             }
         }
-        dna
+        Sequence::new(&dna)
     }
 
-    pub fn complement(&self) -> String {
+    pub fn complement(&self) -> Sequence {
         let mut complement = String::from("");
         for nucleotide in self.sequence.chars() {
-            if nucleotide == 'A' {
-                complement.push('T');
-            } else if nucleotide == 'T' {
-                complement.push('A');
-            } else if nucleotide == 'C' {
-                complement.push('G');
-            } else if nucleotide == 'G' {
-                complement.push('C');
+            match nucleotide {
+                'A' => complement.push('T'),
+                'T' => complement.push('A'),
+                'C' => complement.push('G'),
+                'G' => complement.push('C'),
+                _ => complement.push(nucleotide),
             }
         }
-        complement
+        Sequence::new(&complement)
     }
 
-    pub fn reverse(&self) -> String {
-        let mut reversed = String::from("");
+    pub fn reverse(&self) -> Sequence {
+        let mut reverse = String::from("");
         for nucleotide in self.sequence.chars().rev() {
-            reversed.push(nucleotide);
+            reverse.push(nucleotide);
         }
-        reversed
+        Sequence::new(&reverse)
     }
 
-    pub fn reverse_complement(&self) -> String
+    pub fn reverse_complement(&self) -> Sequence
     {
         let reverse = self.reverse();
-        Sequence::new(&reverse).complement()
+        reverse.complement()
+    }
+
+    pub fn find(&self, pattern: &str) -> usize {
+        let mut index = 0;
+        let mut pattern_index = 0;
+        let mut found = false;
+        for nucleotide in self.sequence.chars() {
+            if nucleotide == pattern.chars().nth(pattern_index).unwrap() {
+                pattern_index += 1;
+                if pattern_index == pattern.len() {
+                    found = true;
+                    break;
+                }
+            } else {
+                pattern_index = 0;
+            }
+            index += 1;
+        }
+        if found {
+            index - pattern.len() + 1
+        } else {
+            self.sequence.len()
+        }
+    }
+
+    pub fn subsequence(&self, start_position: usize, len: usize) -> Sequence
+    {
+        let mut subsequence = String::from("");
+        for (index, nucleotide) in self.sequence.chars().enumerate() {
+            if index >= start_position && index < start_position + len {
+                subsequence.push(nucleotide);
+            }
+        }
+        Sequence::new(&subsequence)
     }
 
 }
