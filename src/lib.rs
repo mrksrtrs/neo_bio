@@ -66,8 +66,14 @@ mod tests {
         let pattern_positions = dna_seq.find(pattern);
         let reference_pattern_positions: usize = 46;
         assert_eq!(pattern_positions, reference_pattern_positions);
+    }
 
-
+    #[test]
+    fn gc_content() {
+        let dna_seq = Sequence::new("ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATCTGTTCTCTAAA");
+        let gc_content = dna_seq.gc_content();
+        let reference_gc_content = 0.35714285714285715;
+        assert_eq!(gc_content, reference_gc_content);
     }
 
 }

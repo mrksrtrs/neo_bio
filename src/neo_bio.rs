@@ -111,6 +111,16 @@ impl Sequence {
         Sequence::new(&subsequence)
     }
 
+    pub fn gc_content(&self) -> f64 {
+        let mut gc_count = 0;
+        for nucleotide in self.sequence.chars() {
+            if nucleotide == 'G' || nucleotide == 'C' {
+                gc_count += 1;
+            }
+        }
+        gc_count as f64 / self.sequence.len() as f64
+    }
+
 }
 
     
