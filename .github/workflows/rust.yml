@@ -20,7 +20,5 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
-    - name: Install tarpaulin
-      run: cargo install tarpaulin
-    - name: Run code coverage
-      run: cargo tarpaulin --ignore-tests
+    - name: Run clippy
+      run: cargo clippy --verbose

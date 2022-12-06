@@ -10,7 +10,11 @@ impl Sequence {
     }
 
     pub fn len(&self) -> usize {
-        return self.sequence.len();
+        self.sequence.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.sequence.is_empty()
     }
 
     pub fn transcribe(&self) -> String {
@@ -22,7 +26,7 @@ impl Sequence {
                 rna.push(nucleotide);
             }
         }
-        return rna;
+        rna
     }
 
     pub fn back_transcribe(&self) -> String {
@@ -34,7 +38,7 @@ impl Sequence {
                 dna.push(nucleotide);
             }
         }
-        return dna;
+        dna
     }
 
     pub fn complement(&self) -> String {
@@ -50,7 +54,7 @@ impl Sequence {
                 complement.push('C');
             }
         }
-        return complement;
+        complement
     }
 
     pub fn reverse(&self) -> String {
@@ -58,14 +62,13 @@ impl Sequence {
         for nucleotide in self.sequence.chars().rev() {
             reversed.push(nucleotide);
         }
-        return reversed;
+        reversed
     }
 
     pub fn reverse_complement(&self) -> String
     {
         let reverse = self.reverse();
-        let reverse_complement = Sequence::new(&reverse).complement();
-        return reverse_complement;
+        Sequence::new(&reverse).complement()
     }
 
 }

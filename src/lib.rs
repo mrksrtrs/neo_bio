@@ -1,4 +1,4 @@
-mod neo_bio;
+pub mod neo_bio;
 
 #[cfg(test)]
 mod tests {
@@ -27,6 +27,20 @@ mod tests {
         let len = dna_seq.len();
         let reference_len = 70;
         assert_eq!(len, reference_len);
+    }
+
+    #[test]
+    fn check_empty_sequence() {
+        let dna_seq = Sequence::new("");
+        let is_empty = dna_seq.is_empty();
+        assert_eq!(is_empty, true);
+    }
+
+    #[test]
+    fn check_non_empty_sequence() {
+        let dna_seq = Sequence::new("ATTG");
+        let is_empty = dna_seq.is_empty();
+        assert_eq!(is_empty, false);
     }
 
     #[test]
