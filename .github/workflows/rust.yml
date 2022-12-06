@@ -24,3 +24,5 @@ jobs:
       run: cargo clippy --verbose
     - name: rust-tarpaulin
       uses: actions-rs/tarpaulin@v0.1.0
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
