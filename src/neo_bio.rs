@@ -10,7 +10,6 @@ impl PartialEq for Sequence {
 }
 
 impl Sequence {
-    
     pub fn new(sequence: &str) -> Sequence {
         Sequence {
             sequence: String::from(sequence),
@@ -71,8 +70,7 @@ impl Sequence {
         Sequence::new(&reverse)
     }
 
-    pub fn reverse_complement(&self) -> Sequence
-    {
+    pub fn reverse_complement(&self) -> Sequence {
         let reverse = self.reverse();
         reverse.complement()
     }
@@ -100,8 +98,7 @@ impl Sequence {
         }
     }
 
-    pub fn subsequence(&self, start_position: usize, len: usize) -> Sequence
-    {
+    pub fn subsequence(&self, start_position: usize, len: usize) -> Sequence {
         let mut subsequence = String::from("");
         for (index, nucleotide) in self.sequence.chars().enumerate() {
             if index >= start_position && index < start_position + len {
@@ -121,6 +118,55 @@ impl Sequence {
         gc_count as f64 / self.sequence.len() as f64
     }
 
-}
+    pub fn non_overlapping_count(&self, subsequence: &str, start: Option<usize>, end: Option<usize>) -> usize {
+        if self.sequence.len() < subsequence.len() {
+            return 0;
+        }
+        let mut count = 0;
+        let mut index = match start {
+            Some(start) => start,
+            None => 0,
+        };
+        let end_index = match end {
+            Some(end) => end,
+            None => self.sequence.len(),
+        };
+        while index < end_index - subsequence.len() + 1 {
+            let sub = self.subsequence(index, subsequence.len());
+            if sub == Sequence::new(subsequence) {
+                count += 1;
+                index += subsequence.len();
+            }
+            else
+            {
+                index += 1;
+            }
+        }
+        count
+    }
 
-    
+    pub fn overlapping_count(&self, subsequence: &str, start: Option<usize>, end: Option<usize>) -> usize {
+        if self.sequence.len() < subsequence.len() {
+            return 0;
+        }
+        let mut count = 0;
+        let mut index = match start {
+            Some(start) => start,
+            None => 0,
+        };
+        let end_index = match end {
+            Some(end) => end,
+            None => self.sequence.len(),
+        };
+        while index < end_index - subsequence.len() + 1 {
+            let sub = self.subsequence(index, subsequence.len());
+            if sub == Sequence::new(subsequence) {
+                count += 1;
+            }
+            index += 1;
+            
+        }
+        count
+    }
+
+}
