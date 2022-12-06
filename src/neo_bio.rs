@@ -123,14 +123,8 @@ impl Sequence {
             return 0;
         }
         let mut count = 0;
-        let mut index = match start {
-            Some(start) => start,
-            None => 0,
-        };
-        let end_index = match end {
-            Some(end) => end,
-            None => self.sequence.len(),
-        };
+        let mut index = start.unwrap_or(0);
+        let end_index = end.unwrap_or(self.sequence.len());
         while index < end_index - subsequence.len() + 1 {
             let sub = self.subsequence(index, subsequence.len());
             if sub == Sequence::new(subsequence) {
@@ -150,14 +144,8 @@ impl Sequence {
             return 0;
         }
         let mut count = 0;
-        let mut index = match start {
-            Some(start) => start,
-            None => 0,
-        };
-        let end_index = match end {
-            Some(end) => end,
-            None => self.sequence.len(),
-        };
+        let mut index = start.unwrap_or(0);
+        let end_index = end.unwrap_or(self.sequence.len());
         while index < end_index - subsequence.len() + 1 {
             let sub = self.subsequence(index, subsequence.len());
             if sub == Sequence::new(subsequence) {
